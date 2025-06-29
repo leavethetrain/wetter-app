@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wetter App</title>
+  </head>
+  <body>
+    <div class="app">
+      <div class="weather">
+        <div class="weather__nav">
+          <i class="weather__back"></i>
+          <button class="weather__fav">
+            <svg
+              class="weather__star"
+              viewBox="0 0 24 24"
+              width="32"
+              height="32"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              stroke="gold"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon
+                points="12,2 15,10 23,10 17,15 19,23 12,18 5,23 7,15 1,10 9,10"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="weather__overview">
+          <h2 class="weather__city">Muenchen</h2>
+          <h1 class="weather__temp">23°</h1>
+          <p class="weather__status">Sonnig</p>
+          <div class="weather__day-temp">
+            <span class="weather__high-temp">H:25°</span
+            ><span class="weather__low-temp">T:20°</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

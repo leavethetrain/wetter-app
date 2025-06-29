@@ -1,0 +1,35 @@
+@use "variables" as *;
+@import "detailView";
+@import "mixins";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  @include largeScreens {
+    background-color: $background;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: lighten($background, 10);
+  }
+}
+
+.app {
+  padding: 1rem;
+  background: linear-gradient(0deg, $elevation-2 0%, $background 50%);
+  font-family: "inter", sans-serif;
+  font-weight: 300;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  height: 100vh;
+
+  @include largeScreens {
+    margin: 2rem;
+    height: 90vh;
+  }
+}

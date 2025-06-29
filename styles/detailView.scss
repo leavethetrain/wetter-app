@@ -1,0 +1,58 @@
+@use "variables" as *;
+
+@import "mixins";
+
+.weather {
+  border: 1px solid black;
+  color: $text-color;
+  display: flex;
+  flex-direction: column;
+  text-shadow: $text-shadow;
+
+  @include largeScreens {
+    width: 350px;
+    height: 800px;
+    padding: 1rem;
+  }
+
+  &__overview {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__back {
+    border: solid $text-color;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 1px;
+    transform: rotate(135deg);
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    margin: 10px;
+  }
+
+  &__fav {
+    border: none;
+    background-color: transparent;
+  }
+
+  &__star {
+    stroke: $text-color;
+    width: 25px;
+    height: 25px;
+  }
+  &__star:hover {
+    fill: yellow;
+    stroke: yellow;
+  }
+}
