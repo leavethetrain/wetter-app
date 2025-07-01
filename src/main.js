@@ -1,6 +1,5 @@
-import { getForecastWeather } from "./api";
 import { loadDetailView } from "./detailView";
-import "/styles/main.scss";
+import "../styles/main.scss";
 
 export const rootElement = document.querySelector(".app");
 //getCurrentWeather("Muenchen");
