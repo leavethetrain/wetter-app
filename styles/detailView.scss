@@ -15,6 +15,17 @@
     padding: 1rem;
   }
 
+  &__temp {
+    font-weight: 250;
+    font-size: 3rem;
+  }
+
+  &__day-temp {
+    display: flex;
+    flex-direction: row;
+    gap: 0.8rem;
+  }
+
   &__overview {
     display: flex;
     flex-direction: column;
