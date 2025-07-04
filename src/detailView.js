@@ -1,7 +1,9 @@
 import { getForecastWeather } from "./api";
 import { rootElement } from "./main";
+import { renderLoadingScreen } from "./loadingScreen";
 
 export async function loadDetailView() {
+  renderLoadingScreen("Lade Wetter für " + "München" + "...");
   const weatherData = await getForecastWeather("Muenchen");
 
   renderDetailView(weatherData);
