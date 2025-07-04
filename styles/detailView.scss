@@ -3,17 +3,9 @@
 @import "mixins";
 
 .weather {
-  border: 1px solid black;
-  color: $text-color;
   display: flex;
   flex-direction: column;
   text-shadow: $text-shadow;
-
-  @include largeScreens {
-    width: 350px;
-    height: 800px;
-    padding: 1rem;
-  }
 
   &__temp {
     font-weight: 250;
@@ -66,4 +58,16 @@
     fill: yellow;
     stroke: yellow;
   }
+}
+
+.lds-roller,
+.lds-roller div,
+.lds-roller div:after {
+  box-sizing: border-box;
+}
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
 }

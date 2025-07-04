@@ -1,6 +1,7 @@
 @use "variables" as *;
 @import "detailView";
 @import "mixins";
+@import "loading";
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 * {
@@ -9,6 +10,7 @@
 }
 
 body {
+  color: $text-color;
   @include largeScreens {
     background-color: $background;
     display: flex;
@@ -31,5 +33,8 @@ body {
   @include largeScreens {
     margin: 2rem;
     height: 90vh;
+    width: 350px;
+    height: 800px;
+    padding: 1rem;
   }
 }
