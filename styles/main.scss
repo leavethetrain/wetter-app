@@ -29,6 +29,7 @@ body {
   border-radius: $border-radius;
   box-shadow: $box-shadow;
   height: 100vh;
+  background-image: url("img/cloudysky.jpg");
 
   @include largeScreens {
     margin: 2rem;

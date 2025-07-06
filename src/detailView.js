@@ -54,7 +54,23 @@ function getHeaderHtml(location, temp, condition, maxTemp, minTemp) {
           <div class="weather__day-temp">
             <span class="weather__high-temp">H:${maxTemp}°C</span
             ><span class="weather__low-temp">T:${minTemp}°C</span>
+            
           </div>
         </div>
-      </div>`;
+      </div>
+      <div class="weather-day-forecast">
+      <div class="weather-day-forecast__condition">
+        <p class="weather-day-forecast__status">
+          Heute sonnig. Wind bis zu kmh
+        </p>
+      </div>
+      <div class="weather-day-forecast__overview">
+        <div class="weather-day-forecast__time">
+          <p class="time">jetzt</p>
+          <p class="icon">icon</p>
+          <p class="temp">temp</p>
+        </div>
+      </div>
+    </div>
+      `;
 }
