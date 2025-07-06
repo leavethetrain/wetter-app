@@ -22,6 +22,10 @@ function renderDetailView(weatherData) {
     maxTemp,
     minTemp
   );
+
+  const scrollEl = rootElement.querySelector(".scrollable");
+  dragScrolling(scrollEl);
+  console.log(scrollEl);
 }
 
 function getHeaderHtml(location, temp, condition, maxTemp, minTemp) {
@@ -64,8 +68,38 @@ function getHeaderHtml(location, temp, condition, maxTemp, minTemp) {
           Heute sonnig. Wind bis zu kmh
         </p>
       </div>
-      <div class="weather-day-forecast__overview">
+      <div class="weather-day-forecast__overview scrollable">
         <div class="weather-day-forecast__time">
+          <p class="time">jetzt</p>
+          <p class="icon">icon</p>
+          <p class="temp">temp</p>
+        </div>
+         <div class="weather-day-forecast__time">
+          <p class="time">jetzt</p>
+          <p class="icon">icon</p>
+          <p class="temp">temp</p>
+        </div>
+         <div class="weather-day-forecast__time">
+          <p class="time">jetzt</p>
+          <p class="icon">icon</p>
+          <p class="temp">temp</p>
+        </div>
+         <div class="weather-day-forecast__time">
+          <p class="time">jetzt</p>
+          <p class="icon">icon</p>
+          <p class="temp">temp</p>
+        </div>
+         <div class="weather-day-forecast__time">
+          <p class="time">jetzt</p>
+          <p class="icon">icon</p>
+          <p class="temp">temp</p>
+        </div>
+         <div class="weather-day-forecast__time">
+          <p class="time">jetzt</p>
+          <p class="icon">icon</p>
+          <p class="temp">temp</p>
+        </div>
+         <div class="weather-day-forecast__time">
           <p class="time">jetzt</p>
           <p class="icon">icon</p>
           <p class="temp">temp</p>
@@ -73,4 +107,29 @@ function getHeaderHtml(location, temp, condition, maxTemp, minTemp) {
       </div>
     </div>
       `;
+}
+
+function dragScrolling(scrollEl) {
+  let isDown = false;
+  let startX;
+  let scrollX;
+  scrollEl.addEventListener("mousedown", (x) => {
+    isDown = true;
+    startX = x.pageX;
+    scrollX = scrollEl.scrollLeft;
+    document.body.style.userSelect = "none";
+  });
+
+  window.addEventListener("mouseup", () => {
+    isDown = false;
+    document.body.style.userSelect = "";
+  });
+
+  scrollEl.addEventListener("mouseleave", () => (isDown = false));
+  scrollEl.addEventListener("mousemove", (x) => {
+    if (!isDown) return;
+    x.preventDefault();
+    const distance = x.pageX - startX;
+    scrollEl.scrollLeft = scrollX - distance;
+  });
 }

@@ -86,4 +86,34 @@
     border-bottom: 1px solid $lines;
     padding-bottom: 1rem;
   }
+
+  &__overview {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    overflow-y: hidden;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &__overview::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__time {
+    min-width: 100px;
+    flex-shrink: 0;
+    border: 1px solid black;
+    text-align: start;
+    padding: 0.5rem;
+  }
+}
+
+.scrollable {
+  cursor: grab;
+}
+
+.scrollable:active {
+  cursor: grabbing;
 }
