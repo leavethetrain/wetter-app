@@ -90,6 +90,7 @@
   &__overview {
     display: flex;
     flex-direction: row;
+
     gap: 1rem;
     overflow-y: hidden;
     overflow-x: auto;
@@ -105,7 +106,7 @@
     min-width: 100px;
     flex-shrink: 0;
     border: 1px solid black;
-    text-align: start;
+    text-align: center;
     padding: 0.5rem;
   }
 }

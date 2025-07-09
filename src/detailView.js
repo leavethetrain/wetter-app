@@ -18,6 +18,7 @@ function renderDetailView(weatherData) {
   const forecastCondition =
     weatherData.forecast.forecastday[0].day.condition.text;
   const maxWind = weatherData.forecast.forecastday[0].day.maxwind_mph;
+  const currentIcon = weatherData.current.condition.icon;
   rootElement.innerHTML = getHeaderHtml(
     location,
     temp,
@@ -25,7 +26,8 @@ function renderDetailView(weatherData) {
     maxTemp,
     minTemp,
     forecastCondition,
-    maxWind
+    maxWind,
+    currentIcon
   );
 
   const scrollEl = rootElement.querySelector(".scrollable");
@@ -40,7 +42,8 @@ function getHeaderHtml(
   maxTemp,
   minTemp,
   forecastCondition,
-  maxWind
+  maxWind,
+  currentIcon
 ) {
   return `<div class="weather">
         <div class="weather__nav">
@@ -78,14 +81,14 @@ function getHeaderHtml(
       <div class="weather-day-forecast">
       <div class="weather-day-forecast__condition">
         <p class="weather-day-forecast__status">
-          Heute ${forecastCondition} . Wind bis zu ${maxWind} kmh
+          Heute ${forecastCondition}. Wind bis zu ${maxWind} km/h.
         </p>
       </div>
       <div class="weather-day-forecast__overview scrollable">
         <div class="weather-day-forecast__time">
-          <p class="time">jetzt</p>
-          <p class="icon">icon</p>
-          <p class="temp">temp</p>
+          <p class="time">Aktuell</p>
+          <p class="icon"><img src="https:${currentIcon}"/></p>
+          <p class="temp">${temp}°C</p>
         </div>
          <div class="weather-day-forecast__time">
           <p class="time">jetzt</p>
