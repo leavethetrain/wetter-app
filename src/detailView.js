@@ -19,6 +19,7 @@ function renderDetailView(weatherData) {
     weatherData.forecast.forecastday[0].day.condition.text;
   const maxWind = weatherData.forecast.forecastday[0].day.maxwind_mph;
   const currentIcon = weatherData.current.condition.icon;
+
   rootElement.innerHTML = getHeaderHtml(
     location,
     temp,
@@ -30,9 +31,41 @@ function renderDetailView(weatherData) {
     currentIcon
   );
 
+  getForecastHours(weatherData);
+
   const scrollEl = rootElement.querySelector(".scrollable");
   dragScrolling(scrollEl);
   console.log(scrollEl);
+}
+
+function getForecastHours(weatherData) {
+  let html = "";
+  const currentHour = new Date().getHours();
+  const todayHours = weatherData.forecast.forecastday[0].hour.slice(
+    currentHour + 1
+  );
+  const tomorrowHours = weatherData.forecast.forecastday[1].hour || [];
+  const allHours = [...todayHours, ...tomorrowHours].slice(0, 24);
+
+  allHours.forEach((hours) => {
+    const upcomingTime = hours.time.split(" ")[1].slice(0, 5);
+    const upcomingTemp = Math.round(hours.temp_c);
+    const upcomingIcon = hours.condition.icon;
+
+    html += `
+        <div class="weather-day-forecast__time">
+          <p class="time">${upcomingTime}</p>
+          <p class="icon"><img src="https:${upcomingIcon}"/></p>
+          <p class="temp">${upcomingTemp}°C</p>
+        </div>`;
+  });
+
+  const container = rootElement.querySelector(
+    ".weather-day-forecast__overview"
+  );
+  if (container) {
+    container.innerHTML += html;
+  }
 }
 
 function getHeaderHtml(
@@ -85,41 +118,14 @@ function getHeaderHtml(
         </p>
       </div>
       <div class="weather-day-forecast__overview scrollable">
-        <div class="weather-day-forecast__time">
-          <p class="time">Aktuell</p>
-          <p class="icon"><img src="https:${currentIcon}"/></p>
-          <p class="temp">${temp}°C</p>
-        </div>
-         <div class="weather-day-forecast__time">
-          <p class="time">jetzt</p>
-          <p class="icon">icon</p>
-          <p class="temp">temp</p>
-        </div>
-         <div class="weather-day-forecast__time">
-          <p class="time">jetzt</p>
-          <p class="icon">icon</p>
-          <p class="temp">temp</p>
-        </div>
-         <div class="weather-day-forecast__time">
-          <p class="time">jetzt</p>
-          <p class="icon">icon</p>
-          <p class="temp">temp</p>
-        </div>
-         <div class="weather-day-forecast__time">
-          <p class="time">jetzt</p>
-          <p class="icon">icon</p>
-          <p class="temp">temp</p>
-        </div>
-         <div class="weather-day-forecast__time">
-          <p class="time">jetzt</p>
-          <p class="icon">icon</p>
-          <p class="temp">temp</p>
-        </div>
-         <div class="weather-day-forecast__time">
-          <p class="time">jetzt</p>
-          <p class="icon">icon</p>
-          <p class="temp">temp</p>
-        </div>
+  <div class="weather-day-forecast__time">
+    <p class="time">Aktuell</p>
+    <p class="icon"><img src="https:${currentIcon}"/></p>
+    <p class="temp">${temp}°C</p>
+  </div>
+</div>
+      
+         
       </div>
     </div>
       `;
@@ -141,7 +147,10 @@ function dragScrolling(scrollEl) {
     document.body.style.userSelect = "";
   });
 
-  scrollEl.addEventListener("mouseleave", () => (isDown = false));
+  scrollEl.addEventListener("mouseleave", () => {
+    isDown = false;
+    document.body.style.userSelect = " ";
+  });
   scrollEl.addEventListener("mousemove", (x) => {
     if (!isDown) return;
     x.preventDefault();

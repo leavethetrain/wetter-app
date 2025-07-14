@@ -103,7 +103,9 @@
   }
 
   &__time {
+    flex: 0 0 auto;
     min-width: 100px;
+    height: 100px;
     flex-shrink: 0;
     border: 1px solid black;
     text-align: center;
