@@ -90,8 +90,6 @@
   &__overview {
     display: flex;
     flex-direction: row;
-
-    gap: 1rem;
     overflow-y: hidden;
     overflow-x: auto;
     scrollbar-width: none;
@@ -104,12 +102,10 @@
 
   &__time {
     flex: 0 0 auto;
-    min-width: 100px;
-    height: 100px;
+    min-width: 80px;
+    height: auto;
     flex-shrink: 0;
-    border: 1px solid black;
     text-align: center;
-    padding: 0.5rem;
   }
 }
 

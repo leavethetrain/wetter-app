@@ -144,12 +144,12 @@ function dragScrolling(scrollEl) {
 
   window.addEventListener("mouseup", () => {
     isDown = false;
-    document.body.style.userSelect = "";
+    document.body.style.userSelect = "none";
   });
 
   scrollEl.addEventListener("mouseleave", () => {
     isDown = false;
-    document.body.style.userSelect = " ";
+    document.body.style.userSelect = "none";
   });
   scrollEl.addEventListener("mousemove", (x) => {
     if (!isDown) return;
