@@ -3,3 +3,16 @@
     @content;
   }
 }
+
+@mixin card() {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  backdrop-filter: blur(5px);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+@mixin header() {
+  border-bottom: $lines;
+  padding-bottom: $card-header-gap;
+}
