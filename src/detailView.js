@@ -84,7 +84,13 @@ function getForecastDays(weatherData) {
 
     html += `
   
-            <div class ="weather-forecast-days__tomorrow"><p>${weekdays} <img src="https:${upcomingDayIcon}"/>H:${upcomingDayHighTemp}° T:${upcomingDayLowTemp}° Wind: ${upcomingDayWind}</p></div>
+          <div class ="weather-forecast-days__tomorrow">
+            <div class ="weather-forecast-days__day">
+            <span class="day">${weekdays}</span> <img src="https:${upcomingDayIcon}"/> <span class="high-temp">H:${upcomingDayHighTemp}°</span> <span class="min-temp">T:${upcomingDayLowTemp}°</span><span class="wind"> Wind: ${upcomingDayWind} km/h</span></div>
+           
+</div>
+            </div>
+       
 
     
     
@@ -166,10 +172,12 @@ function getHeaderHtml(
             </div>
 
             <div class ="weather-forecast-days__overview">
-            <div class ="weather-forecast-days__tomorrow"><p>Heute <img src="https:${currentIcon}"/>H:${maxTemp}° T:${minTemp}° Wind: ${maxWind}</p></div>
+              <div class ="weather-forecast-days__tomorrow">
+                <div class ="weather-forecast-days__day">
+                  <span class="day">Heute</span> <img src="https:${currentIcon}"/> <span class="high-temp">H:${maxTemp}°</span> <span class="min-temp">T:${minTemp}°</span><span class="wind"> Wind: ${maxWind} km/h</span></div>
            
-
-            </div>
+                </div>
+             </div>
        
       
          
