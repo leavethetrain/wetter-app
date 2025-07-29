@@ -32,6 +32,7 @@ function renderDetailView(weatherData) {
   );
 
   getForecastHours(weatherData);
+  getForecastDays(weatherData);
 
   const scrollEl = rootElement.querySelector(".scrollable");
   dragScrolling(scrollEl);
@@ -62,6 +63,36 @@ function getForecastHours(weatherData) {
 
   const container = rootElement.querySelector(
     ".weather-day-forecast__overview"
+  );
+  if (container) {
+    container.innerHTML += html;
+  }
+}
+
+function getForecastDays(weatherData) {
+  let html = "";
+
+  weatherData.forecast.forecastday.slice(0, 2).forEach((day) => {
+    const date = new Date(day.date);
+    const weekdays = date.toLocaleString("de-DE", { weekday: "short" });
+
+    const upcomingDayIcon = day.day.condition.icon;
+    const upcomingDayHighTemp = day.day.maxtemp_c;
+    const upcomingDayLowTemp = day.day.mintemp_c;
+    const upcomingDayWind = day.day.maxwind_kph;
+    console.log(upcomingDayHighTemp);
+
+    html += `
+  
+            <div class ="weather-forecast-days__tomorrow"><p>${weekdays} <img src="https:${upcomingDayIcon}"/>H:${upcomingDayHighTemp}° T:${upcomingDayLowTemp}° Wind: ${upcomingDayWind}</p></div>
+
+    
+    
+    `;
+  });
+
+  const container = rootElement.querySelector(
+    ".weather-forecast-days__overview"
   );
   if (container) {
     container.innerHTML += html;
@@ -128,12 +159,6 @@ function getHeaderHtml(
           </div>
 
          
-       
-       
-       
-       
-       
-       
           </div>
            <div class ="weather-forecast-days"> 
             <div class="weather-forecast-days__header">
@@ -141,9 +166,8 @@ function getHeaderHtml(
             </div>
 
             <div class ="weather-forecast-days__overview">
-            <div class ="weather-forecast-days__today"><p>Heute</p></div>
-            <div class ="weather-forecast-days__tomorrow"><p>DI</p></div>
-            <div class ="weather-forecast-days__aftertomorrow"><p>MI</p></div>
+            <div class ="weather-forecast-days__tomorrow"><p>Heute <img src="https:${currentIcon}"/>H:${maxTemp}° T:${minTemp}° Wind: ${maxWind}</p></div>
+           
 
             </div>
        
@@ -154,7 +178,7 @@ function getHeaderHtml(
       `;
 }
 
-function getForecastDays() {}
+//====================scrollbar====================
 
 function dragScrolling(scrollEl) {
   let isDown = false;
