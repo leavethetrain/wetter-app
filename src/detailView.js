@@ -72,13 +72,13 @@ function getForecastHours(weatherData) {
 function getForecastDays(weatherData) {
   let html = "";
 
-  weatherData.forecast.forecastday.slice(0, 2).forEach((day) => {
+  weatherData.forecast.forecastday.slice(1, 3).forEach((day) => {
     const date = new Date(day.date);
     const weekdays = date.toLocaleString("de-DE", { weekday: "short" });
 
     const upcomingDayIcon = day.day.condition.icon;
-    const upcomingDayHighTemp = day.day.maxtemp_c;
-    const upcomingDayLowTemp = day.day.mintemp_c;
+    const upcomingDayHighTemp = Math.round(day.day.maxtemp_c);
+    const upcomingDayLowTemp = Math.round(day.day.mintemp_c);
     const upcomingDayWind = day.day.maxwind_kph;
     console.log(upcomingDayHighTemp);
 
@@ -86,7 +86,7 @@ function getForecastDays(weatherData) {
   
           <div class ="weather-forecast-days__tomorrow">
             <div class ="weather-forecast-days__day">
-            <span class="day">${weekdays}</span> <img src="https:${upcomingDayIcon}"/> <span class="high-temp">H:${upcomingDayHighTemp}°</span> <span class="min-temp">T:${upcomingDayLowTemp}°</span><span class="wind"> Wind: ${upcomingDayWind} km/h</span></div>
+            <span class="weekday">${weekdays}</span> <img src="https:${upcomingDayIcon}"/> <span class="high-temp">H:${upcomingDayHighTemp}°</span> <span class="min-temp">T:${upcomingDayLowTemp}°</span><span class="wind"> Wind: ${upcomingDayWind} km/h</span></div>
            
 </div>
             </div>
@@ -116,73 +116,103 @@ function getHeaderHtml(
   currentIcon
 ) {
   return `<div class="weather">
-            <div class="weather__nav">
-             <i class="weather__back"></i>
-             <button class="weather__fav">
-             <svg
-              class="weather__star"
-              viewBox="0 0 24 24"
-              width="32"
-              height="32"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              stroke="gold"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-             >
-              <polygon
-                points="12,2 15,10 23,10 17,15 19,23 12,18 5,23 7,15 1,10 9,10"
-              />
-             </svg>
-             </button>
-            </div>
-          <div class="weather__overview">
-            <h2 class="weather__city">${location}</h2>
-            <h1 class="weather__temp">${temp}°C</h1>
-            <p class="weather__status">${condition}</p>
-           <div class="weather__day-temp">
-             <span class="weather__high-temp">H:${maxTemp}°C</span
-             ><span class="weather__low-temp">T:${minTemp}°C</span>
-            
+              <div class="weather__nav">
+                  <i class="weather__back"></i>
+                  <button class="weather__fav">
+                  <svg
+                    class="weather__star"
+                    viewBox="0 0 24 24"
+                    width="32"
+                    height="32"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    stroke="gold"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polygon
+                      points="12,2 15,10 23,10 17,15 19,23 12,18 5,23 7,15 1,10 9,10"
+                    />
+                  </svg>
+                  </button>
+               </div>
+               <div class="weather__overview">
+                  <h2 class="weather__city">${location}</h2>
+                  <h1 class="weather__temp">${temp}°C</h1>
+                  <p class="weather__status">${condition}</p>
+                <div class="weather__day-temp">
+                  <span class="weather__high-temp">H:${maxTemp}°C</span
+                  ><span class="weather__low-temp">T:${minTemp}°C</span>
+                </div>
+               </div>
            </div>
-          </div>
-         </div>
 
-          <div class="weather-day-forecast">
+           <div class="weather-day-forecast">
              <div class="weather-day-forecast__condition">
               <p class="weather-day-forecast__status">
               Heute ${forecastCondition}. Wind bis zu ${maxWind} km/h.
               </p>
-             </div>
+           </div>
 
-            <div class="weather-day-forecast__overview scrollable">
+           <div class="weather-day-forecast__overview scrollable">
               <div class="weather-day-forecast__time">
-              <p class="time">Aktuell</p>
-              <p class="icon"><img src="https:${currentIcon}"/></p>
-              <p class="temp">${temp}°C</p>
-            </div>
-          </div>
+                <p class="time">Aktuell</p>
+                <p class="icon"><img src="https:${currentIcon}"/></p>
+                <p class="temp">${temp}°C</p>
+              </div>
+           </div>
+          
 
          
-          </div>
+           </div>
            <div class ="weather-forecast-days"> 
             <div class="weather-forecast-days__header">
               <p>Vohersage für die nächsten 3 Tage</p>
-            </div>
+           </div>
 
-            <div class ="weather-forecast-days__overview">
-              <div class ="weather-forecast-days__tomorrow">
-                <div class ="weather-forecast-days__day">
-                  <span class="day">Heute</span> <img src="https:${currentIcon}"/> <span class="high-temp">H:${maxTemp}°</span> <span class="min-temp">T:${minTemp}°</span><span class="wind"> Wind: ${maxWind} km/h</span></div>
-           
-                </div>
+           <div class ="weather-forecast-days__overview">
+             <div class ="weather-forecast-days__tomorrow">
+              <div class ="weather-forecast-days__day">
+                  <span class="weekday">Heute</span> <img src="https:${currentIcon}"/> 
+                  <span class="high-temp">H:${maxTemp}°</span> <span class="min-temp">T:${minTemp}°</span>
+                  <span class="wind"> Wind: ${maxWind} km/h</span>
+              </div>
              </div>
+           </div>
+         </div>
+
+           <div class="weather-details">
+              <div class="weather-details__box">
+                <p class="weather-details__humidity">Luftfeuchtigkeit</p>
+                <p>32%</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__perceived">Gefühlt</p>
+                <p>32°</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__sunrise">Sonnenaufgang</p>
+                <p>05:20 Uhr</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__sunrise">Sonnenuntergang</p>
+                <p>19:15 Uhr</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__rainfall">Nierderschlag</p>
+                <p>0.01mm</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__index">UV-Index</p>
+                <p>5</p>
+              </div>
+            </div>
        
       
          
       </div>
-    </div>
+    
       `;
 }
 

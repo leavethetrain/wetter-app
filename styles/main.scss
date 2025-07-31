@@ -28,14 +28,14 @@ body {
   font-weight: 300;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
-  height: 100vh;
+  min-height: 100vh;
   background-image: url("../img/cloudysky.jpg");
 
   @include largeScreens {
     margin: 2rem;
-    height: 90vh;
+    min-height: 90vh;
     width: 350px;
-    height: 800px;
+    min-height: 800px;
     padding: 1rem;
   }
 }
