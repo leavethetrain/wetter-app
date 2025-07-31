@@ -33,6 +33,7 @@ function renderDetailView(weatherData) {
 
   getForecastHours(weatherData);
   getForecastDays(weatherData);
+  getWeatherDetails(weatherData);
 
   const scrollEl = rootElement.querySelector(".scrollable");
   dragScrolling(scrollEl);
@@ -86,20 +87,59 @@ function getForecastDays(weatherData) {
   
           <div class ="weather-forecast-days__tomorrow">
             <div class ="weather-forecast-days__day">
-            <span class="weekday">${weekdays}</span> <img src="https:${upcomingDayIcon}"/> <span class="high-temp">H:${upcomingDayHighTemp}°</span> <span class="min-temp">T:${upcomingDayLowTemp}°</span><span class="wind"> Wind: ${upcomingDayWind} km/h</span></div>
-           
-</div>
+              <span class="weekday">${weekdays}</span> 
+              <img src="https:${upcomingDayIcon}"/> 
+              <span class="high-temp">H:${upcomingDayHighTemp}°</span> 
+              <span class="min-temp">T:${upcomingDayLowTemp}°</span>
+              <span class="wind"> Wind: ${upcomingDayWind} km/h</span></div>
             </div>
-       
-
-    
-    
-    `;
+          </div>
+        `;
   });
 
   const container = rootElement.querySelector(
     ".weather-forecast-days__overview"
   );
+  if (container) {
+    container.innerHTML += html;
+  }
+}
+function getWeatherDetails(weatherData) {
+  let html = "";
+  const humidity = weatherData.current.humidity;
+  const perceived = weatherData.current.feelslike_c;
+  const sunrise = weatherData.forecast.forecastday.sunrise;
+  const sunset = weatherData.forecast.forecastday.sunset;
+
+  html += ` 
+              <div class="weather-details__box">
+                <p class="weather-details__humidity">Luftfeuchtigkeit</p>
+                <p>${humidity}%</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__perceived">Gefühlt</p>
+                <p>${perceived}°</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__sunrise">Sonnenaufgang</p>
+                <p>${sunrise}</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__sunset">Sonnenuntergang</p>
+                <p>${sunset}</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__rainfall">Nierderschlag</p>
+                <p>0.01mm</p>
+              </div>
+              <div class="weather-details__box">
+                <p class="weather-details__index">UV-Index</p>
+                <p>5</p>
+              </div>
+           `;
+
+  const container = rootElement.querySelector(".weather-details");
+
   if (container) {
     container.innerHTML += html;
   }
@@ -182,32 +222,7 @@ function getHeaderHtml(
            </div>
          </div>
 
-           <div class="weather-details">
-              <div class="weather-details__box">
-                <p class="weather-details__humidity">Luftfeuchtigkeit</p>
-                <p>32%</p>
-              </div>
-              <div class="weather-details__box">
-                <p class="weather-details__perceived">Gefühlt</p>
-                <p>32°</p>
-              </div>
-              <div class="weather-details__box">
-                <p class="weather-details__sunrise">Sonnenaufgang</p>
-                <p>05:20 Uhr</p>
-              </div>
-              <div class="weather-details__box">
-                <p class="weather-details__sunrise">Sonnenuntergang</p>
-                <p>19:15 Uhr</p>
-              </div>
-              <div class="weather-details__box">
-                <p class="weather-details__rainfall">Nierderschlag</p>
-                <p>0.01mm</p>
-              </div>
-              <div class="weather-details__box">
-                <p class="weather-details__index">UV-Index</p>
-                <p>5</p>
-              </div>
-            </div>
+           <div class="weather-details"></div>
        
       
          
