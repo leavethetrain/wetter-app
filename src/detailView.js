@@ -104,12 +104,29 @@ function getForecastDays(weatherData) {
     container.innerHTML += html;
   }
 }
+
+function convertGermanTime(timeStr) {
+  const [time, modifier] = timeStr.split(" ");
+  let [hours, minutes] = time.split(":").map(Number);
+
+  if (modifier === "PM" && hours < 12) hours += 12;
+  if (modifier === "AM" && hours === 12) hours = 0;
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )} Uhr`;
+}
+
 function getWeatherDetails(weatherData) {
   let html = "";
   const humidity = weatherData.current.humidity;
-  const perceived = weatherData.current.feelslike_c;
-  const sunrise = weatherData.forecast.forecastday.sunrise;
-  const sunset = weatherData.forecast.forecastday.sunset;
+  const perceived = Math.round(weatherData.current.feelslike_c);
+  const rainfall = weatherData.forecast.forecastday[0].day.daily_chance_of_rain;
+  const index = weatherData.current.heatindex_c;
+  const astro = weatherData.forecast.forecastday[0].astro;
+  const sunset = convertGermanTime(astro.sunset);
+  const sunrise = convertGermanTime(astro.sunrise);
 
   html += ` 
               <div class="weather-details__box">
@@ -129,12 +146,12 @@ function getWeatherDetails(weatherData) {
                 <p>${sunset}</p>
               </div>
               <div class="weather-details__box">
-                <p class="weather-details__rainfall">Nierderschlag</p>
-                <p>0.01mm</p>
+                <p class="weather-details__rainfall">Regenwahrscheinlichkeit</p>
+                <p>${rainfall}%</p>
               </div>
               <div class="weather-details__box">
                 <p class="weather-details__index">UV-Index</p>
-                <p>5</p>
+                <p>${index}</p>
               </div>
            `;
 
