@@ -1,6 +1,7 @@
 import { getForecastWeather } from "./api";
 import { rootElement } from "./main";
 import { renderLoadingScreen } from "./loadingScreen";
+import { getConditionImagePath } from "./condition";
 
 export async function loadDetailView() {
   renderLoadingScreen("Lade Wetter für " + "München" + "...");
@@ -10,6 +11,16 @@ export async function loadDetailView() {
 }
 
 function renderDetailView(weatherData) {
+  const conditionImage = getConditionImagePath(
+    weatherData.current.condition.code,
+    weatherData.current.is_day !== 1
+  );
+
+  if (conditionImage) {
+    rootElement.style = `--detail-condition-image: url(${conditionImage})`;
+    rootElement.classList.add("show-background");
+  }
+
   const location = weatherData.location.name;
   const temp = Math.round(weatherData.current.temp_c);
   const condition = weatherData.current.condition.text;
