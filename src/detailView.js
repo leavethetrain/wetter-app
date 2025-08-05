@@ -76,7 +76,6 @@ function getForecastDays(weatherData) {
   weatherData.forecast.forecastday.slice(1, 3).forEach((day) => {
     const date = new Date(day.date);
     const weekdays = date.toLocaleString("de-DE", { weekday: "short" });
-
     const upcomingDayIcon = day.day.condition.icon;
     const upcomingDayHighTemp = Math.round(day.day.maxtemp_c);
     const upcomingDayLowTemp = Math.round(day.day.mintemp_c);
@@ -123,7 +122,7 @@ function getWeatherDetails(weatherData) {
   const humidity = weatherData.current.humidity;
   const perceived = Math.round(weatherData.current.feelslike_c);
   const rainfall = weatherData.forecast.forecastday[0].day.daily_chance_of_rain;
-  const index = weatherData.current.heatindex_c;
+  const index = Math.round(weatherData.current.heatindex_c);
   const astro = weatherData.forecast.forecastday[0].astro;
   const sunset = convertGermanTime(astro.sunset);
   const sunrise = convertGermanTime(astro.sunrise);

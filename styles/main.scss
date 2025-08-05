@@ -21,7 +21,7 @@ body {
   }
 }
 
-.app {
+#app {
   padding: 1rem;
   background: linear-gradient(0deg, $elevation-2 0%, $background 50%);
   font-family: "inter", sans-serif;
@@ -29,7 +29,6 @@ body {
   border-radius: $border-radius;
   box-shadow: $box-shadow;
   min-height: 100vh;
-  background-image: url("../img/cloudysky.jpg");
 
   @include largeScreens {
     margin: 2rem;
@@ -37,5 +36,11 @@ body {
     width: 350px;
     min-height: 800px;
     padding: 1rem;
+  }
+
+  &.show-background {
+    background: url(/conditionImages/day/sunny.jpg);
+    background-size: cover;
+    background-position: center;
   }
 }
