@@ -3,9 +3,9 @@ import { rootElement } from "./main";
 import { renderLoadingScreen } from "./loadingScreen";
 import { getConditionImagePath } from "./condition";
 
-export async function loadDetailView() {
+export async function loadDetailView(cityName) {
   renderLoadingScreen("Lade Wetter für " + "München" + "...");
-  const weatherData = await getForecastWeather("Muenchen");
+  const weatherData = await getForecastWeather(cityName);
 
   renderDetailView(weatherData);
 }
