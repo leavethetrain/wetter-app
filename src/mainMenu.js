@@ -8,7 +8,7 @@ export function loadCities() {
   renderMainMenu();
 }
 
-function renderMainMenu(weatherData) {
+function renderMainMenu() {
   rootElement.innerHTML = `
   <div class="main-menu">${getMenuHeaderHtml()}
   ${getCities()}</div>
@@ -28,8 +28,11 @@ function eventListeners() {
 }
 
 function getMenuHeaderHtml() {
-  return `<div class="main-menu__header"><h1>Wetter</h1><button class="main-menu__edit">bearbeiten</button></div>
-  <input class="main-menu__searchbar" type="text" placeholder="City..." />
+  return `<div class="main-menu__header">
+           <h1>Wetter</h1>
+           <button class="main-menu__edit">bearbeiten</button>
+          </div>
+          <input class="main-menu__searchbar" type="text" placeholder="City..." />
  `;
 }
 
@@ -39,11 +42,16 @@ function getCities() {
 
   for (let city of favoriteCities) {
     const cityHtml = `<div class="main-menu__citys" data-city-name="${city}">
-  <p class="main-menu__city"><span class="main-menu__city--location">${city}</span>
-  <span class="main-menu__city--temp-location">88°</span></p>
-  <p class="main-menu__weather"><span class="main-menu__weather--condition">sonnig</span>
-  <span class="main-menu__weather--condition">H:33° T:33°</span></p>
-</div>`;
+                        <div class="main-menu__cityleft">
+                            <h2 class="main-menu__cityleft--location">${city}</h2>
+                            <p class="main-menu__cityleft--country">germany</p>
+                            <p class="main-menu__cityleft--condition">sonnig</p>
+                         </div>
+                         <div class="main-menu__cityright">
+                            <p class="main-menu__cityright--currenttemp">88°</p>
+                            <p class="main-menu__cityright--maxmintemp">H:22° T:22°</p>
+                         </div>
+                      </div>`;
 
     favoriteCityEl.push(cityHtml);
   }
@@ -54,25 +62,3 @@ function getCities() {
  ${favoriteCitiesHtml}
 </div>`;
 }
-
-/*export function renderCities(weatherData) {
-  const location = weatherData.location.name;
-  const temp = Math.round(weatherData.current.temp_c);
-  const condition = weatherData.current.condition.text;
-  const maxTemp = Math.round(weatherData.forecast.forecastday[0].day.maxtemp_c);
-  const minTemp = Math.round(weatherData.forecast.forecastday[0].day.mintemp_c);
-
-  html += `
-  <div class="main-menu__citys">
-  <p class="main-menu__city"><span class="main-menu__city--location">${location}</span>
-  <span class="main-menu__city--temp-location">${temp}°</span></p>
-  <p class="main-menu__weather"><span class="main-menu__weather--condition">${condition}</span>
-  <span class="main-menu__weather--condition">H:${maxTemp}° T:${minTemp}°</span></p>
-</div>`;
-
-  const container = rootElement.querySelector(".main-menu");
-  if (container) {
-    container.innerHTML = html;
-  }
-  renderBackgroundMainMenu();
-}*/
