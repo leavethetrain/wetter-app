@@ -5,7 +5,7 @@ import { getConditionImagePath } from "./condition";
 import { loadCities } from "./mainMenu";
 
 export async function loadDetailView(cityName) {
-  renderLoadingScreen("Lade Wetter für " + "München" + "...");
+  renderLoadingScreen("Lade Wetter für " + cityName + "...");
   const weatherData = await getForecastWeather(cityName);
 
   renderDetailView(weatherData);
