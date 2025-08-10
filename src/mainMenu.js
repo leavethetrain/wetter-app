@@ -21,6 +21,7 @@ async function renderMainMenu() {
 
 function eventListeners() {
   const cities = document.querySelectorAll(".main-menu__citys");
+
   cities.forEach((city) => {
     city.addEventListener("click", () => {
       const cityName = city.getAttribute("data-city-name");

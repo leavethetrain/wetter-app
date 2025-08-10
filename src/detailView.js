@@ -2,12 +2,17 @@ import { getForecastWeather } from "./api";
 import { rootElement } from "./main";
 import { renderLoadingScreen } from "./loadingScreen";
 import { getConditionImagePath } from "./condition";
+import { loadCities } from "./mainMenu";
 
 export async function loadDetailView(cityName) {
   renderLoadingScreen("Lade Wetter für " + "München" + "...");
   const weatherData = await getForecastWeather(cityName);
 
   renderDetailView(weatherData);
+  const returnBtn = document.querySelector(".weather__back");
+  if (returnBtn) {
+    returnBtn.addEventListener("click", loadCities);
+  }
 }
 
 function renderDetailView(weatherData) {
