@@ -10,3 +10,10 @@ export async function getForecastWeather(location, days = 3) {
   console.log(weatherData);
   return weatherData;
 }
+
+export async function searchCities(userinput) {
+  const response = await fetch(
+    `${API_BASE_URL}/search.json?key=${API_KEY}&q=${userinput}&lang=de`
+  );
+  return await response.json();
+}

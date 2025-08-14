@@ -3,6 +3,7 @@ import { renderLoadingScreen } from "./loadingScreen";
 import { loadDetailView } from "./detailView";
 import { getForecastWeather } from "./api";
 import { getConditionImagePath } from "./condition";
+import { searchCities } from "./api";
 
 export async function loadCities() {
   rootElement.classList.remove("show-background");
@@ -11,9 +12,13 @@ export async function loadCities() {
 }
 
 async function renderMainMenu() {
+  rootElement.classList.remove("show-background");
+  const citiesHtml = await getCities();
   rootElement.innerHTML = `
-  <div class="main-menu">${getMenuHeaderHtml()}
-  ${await getCities()}</div>
+    <div class="main-menu">
+      ${getMenuHeaderHtml()}
+      <div class="weather__fav">${citiesHtml}</div>
+    </div>
   `;
 
   eventListeners();
@@ -22,11 +27,44 @@ async function renderMainMenu() {
 function eventListeners() {
   const cities = document.querySelectorAll(".main-menu__citys");
 
+  const searchInput = document.querySelector(".main-menu__searchbar");
+  const suggestionBox = document.createElement("div");
+  suggestionBox.classList.add("main-menu__suggestions");
+  searchInput.parentNode.appendChild(suggestionBox);
+
   cities.forEach((city) => {
     city.addEventListener("click", () => {
       const cityName = city.getAttribute("data-city-name");
       loadDetailView(cityName);
     });
+  });
+  searchInput.addEventListener("input", async () => {
+    const userinput = searchInput.value.trim();
+    if (userinput.length < 1) {
+      suggestionBox.innerHTML = "";
+      return;
+    }
+
+    const results = await searchCities(userinput);
+
+    suggestionBox.innerHTML = results
+      .map(
+        (city) =>
+          `<div class="main-menu__suggestion" data-city="${city.name}">
+           ${city.name}, ${city.country}
+         </div>`
+      )
+      .join("");
+
+    document
+      .querySelectorAll(".main-menu__suggestion")
+      .forEach((suggestion) => {
+        suggestion.addEventListener("click", () => {
+          const cityName = suggestion.getAttribute("data-city");
+          loadDetailView(cityName);
+          suggestionBox.innerHTML = "";
+        });
+      });
   });
 }
 
@@ -39,8 +77,17 @@ function getMenuHeaderHtml() {
  `;
 }
 
+export function getFavoriteCities() {
+  const stored = localStorage.getItem("favoriteCities");
+  return stored ? JSON.parse(stored) : [];
+}
+
+export function saveFavoriteCities(cities) {
+  localStorage.setItem("favoriteCities", JSON.stringify(cities));
+}
+
 async function getCities() {
-  const favoriteCities = ["Mannheim", "Muenchen", "Peking"];
+  const favoriteCities = getFavoriteCities();
   const favoriteCityEl = [];
 
   for (let city of favoriteCities) {
@@ -81,9 +128,5 @@ async function getCities() {
     favoriteCityEl.push(cityHtml);
   }
 
-  const favoriteCitiesHtml = favoriteCityEl.join("");
-
-  return `<div class="main-menu__city-container">
- ${favoriteCitiesHtml}
-</div>`;
+  return favoriteCityEl.join("");
 }
