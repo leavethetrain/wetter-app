@@ -21,6 +21,13 @@ async function renderMainMenu() {
     </div>
   `;
 
+  const editBtn = document.querySelector(".main-menu__edit");
+  editBtn.addEventListener("click", () => {
+    document.querySelectorAll(".main-menu__delete-button").forEach((btn) => {
+      btn.classList.toggle("main-menu__delete-button--visible");
+    });
+  });
+
   eventListeners();
 }
 
@@ -63,6 +70,20 @@ function eventListeners() {
         });
       });
   });
+
+  document.querySelectorAll(".main-menu__delete-button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const cityDiv = btn.nextElementSibling;
+      const cityName = cityDiv.getAttribute("data-city-name");
+
+      const favoriteCities = getFavoriteCities();
+      const newFavoriteCities = favoriteCities.filter(
+        (city) => city !== cityName
+      );
+      saveFavoriteCities(newFavoriteCities);
+      renderMainMenu();
+    });
+  });
 }
 
 function getMenuHeaderHtml() {
@@ -101,7 +122,11 @@ async function getCities() {
       weatherData.current.is_day !== 1
     );
 
-    const cityHtml = `<div class="main-menu__citys" data-city-name="${city}" ${
+    const cityHtml = `<div class="main-menu__cities-wrapper"><button class="main-menu__delete-button "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
+</button><div class="main-menu__citys" data-city-name="${city}" ${
       conditionImage ? `style="--condition-image: url(${conditionImage})"` : ""
     }>
                         <div class="main-menu__cityleft">
@@ -123,7 +148,7 @@ async function getCities() {
                               currentDay.day.maxtemp_c
                             )}° T:${Math.round(currentDay.day.mintemp_c)}°</p>
                          </div>
-                      </div>`;
+                      </div></div>`;
 
     favoriteCityEl.push(cityHtml);
   }

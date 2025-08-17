@@ -67,6 +67,25 @@
     background-color: grey;
   }
 
+  &__cities-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__delete-button {
+    width: 2rem;
+    background-color: transparent;
+    border: none;
+    margin-right: 0.8rem;
+    color: rgb(173, 34, 34);
+    display: none;
+  }
+
+  &__delete-button--visible {
+    display: block;
+    cursor: pointer;
+  }
+
   &__citys {
     display: flex;
     flex-direction: row;
