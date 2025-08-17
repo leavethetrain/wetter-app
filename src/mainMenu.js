@@ -26,11 +26,8 @@ async function renderMainMenu() {
 
 function eventListeners() {
   const cities = document.querySelectorAll(".main-menu__citys");
-
   const searchInput = document.querySelector(".main-menu__searchbar");
-  const suggestionBox = document.createElement("div");
-  suggestionBox.classList.add("main-menu__suggestions");
-  searchInput.parentNode.appendChild(suggestionBox);
+  const suggestionBox = document.querySelector(".main-menu__suggestions");
 
   cities.forEach((city) => {
     city.addEventListener("click", () => {
@@ -73,7 +70,10 @@ function getMenuHeaderHtml() {
            <h1>Wetter</h1>
            <button class="main-menu__edit">bearbeiten</button>
           </div>
-          <input class="main-menu__searchbar" type="text" placeholder="City..." />
+          <div class="main-menu__search">
+      <input class="main-menu__searchbar" type="text" placeholder="City..." />
+      <div class="main-menu__suggestions"></div>
+    </div>
  `;
 }
 
