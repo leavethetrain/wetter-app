@@ -52,14 +52,15 @@
     stroke: $text-color;
     width: 25px;
     height: 25px;
+
+    &--active {
+      fill: yellow;
+      stroke: yellow;
+    }
   }
   &__star:hover {
     fill: yellow;
     stroke: yellow;
-  }
-
-  &__start--active {
-    fill: yellow;
   }
 }
 

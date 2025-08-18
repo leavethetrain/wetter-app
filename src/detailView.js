@@ -47,72 +47,59 @@ function renderDetailView(weatherData) {
     maxWind,
     currentIcon
   );
-  const favBtn = document.querySelector(".weather__fav");
-  if (favBtn) {
-    favBtn.addEventListener("click", () => {
-      const cityName = favBtn.querySelector(".weather__star").dataset.cityName;
-      let favorites = getFavoriteCities();
 
-      if (favorites.includes(cityName)) {
-        favorites = favorites.filter((c) => c !== cityName);
-      } else {
-        favorites.push(cityName);
-      }
-      saveFavoriteCities(favorites);
-    });
+  setFavoriteStar(weatherData);
+  getForecastHours(weatherData);
+  getForecastDays(weatherData);
+  getWeatherDetails(weatherData);
 
-    getForecastHours(weatherData);
-    getForecastDays(weatherData);
-    getWeatherDetails(weatherData);
+  const scrollEl = rootElement.querySelector(".scrollable");
+  dragScrolling(scrollEl);
+}
 
-    const scrollEl = rootElement.querySelector(".scrollable");
-    dragScrolling(scrollEl);
-    console.log(scrollEl);
-  }
+function getForecastHours(weatherData) {
+  let html = "";
+  const currentHour = new Date().getHours();
+  const todayHours = weatherData.forecast.forecastday[0].hour.slice(
+    currentHour + 1
+  );
+  const tomorrowHours = weatherData.forecast.forecastday[1].hour || [];
+  const allHours = [...todayHours, ...tomorrowHours].slice(0, 24);
 
-  function getForecastHours(weatherData) {
-    let html = "";
-    const currentHour = new Date().getHours();
-    const todayHours = weatherData.forecast.forecastday[0].hour.slice(
-      currentHour + 1
-    );
-    const tomorrowHours = weatherData.forecast.forecastday[1].hour || [];
-    const allHours = [...todayHours, ...tomorrowHours].slice(0, 24);
+  allHours.forEach((hours) => {
+    const upcomingTime = hours.time.split(" ")[1].split(":")[0];
+    const upcomingTemp = Math.round(hours.temp_c);
+    const upcomingIcon = hours.condition.icon;
 
-    allHours.forEach((hours) => {
-      const upcomingTime = hours.time.split(" ")[1].split(":")[0];
-      const upcomingTemp = Math.round(hours.temp_c);
-      const upcomingIcon = hours.condition.icon;
-
-      html += `
+    html += `
         <div class="weather-day-forecast__time">
           <p class="time">${upcomingTime} Uhr</p>
           <p class="icon"><img src="https:${upcomingIcon}"/></p>
           <p class="temp">${upcomingTemp}°C</p>
         </div>`;
-    });
+  });
 
-    const container = rootElement.querySelector(
-      ".weather-day-forecast__overview"
-    );
-    if (container) {
-      container.innerHTML += html;
-    }
+  const container = rootElement.querySelector(
+    ".weather-day-forecast__overview"
+  );
+  if (container) {
+    container.innerHTML += html;
   }
+}
 
-  function getForecastDays(weatherData) {
-    let html = "";
+function getForecastDays(weatherData) {
+  let html = "";
 
-    weatherData.forecast.forecastday.slice(1, 3).forEach((day) => {
-      const date = new Date(day.date);
-      const weekdays = date.toLocaleString("de-DE", { weekday: "short" });
-      const upcomingDayIcon = day.day.condition.icon;
-      const upcomingDayHighTemp = Math.round(day.day.maxtemp_c);
-      const upcomingDayLowTemp = Math.round(day.day.mintemp_c);
-      const upcomingDayWind = day.day.maxwind_kph;
-      console.log(upcomingDayHighTemp);
+  weatherData.forecast.forecastday.slice(1, 3).forEach((day) => {
+    const date = new Date(day.date);
+    const weekdays = date.toLocaleString("de-DE", { weekday: "short" });
+    const upcomingDayIcon = day.day.condition.icon;
+    const upcomingDayHighTemp = Math.round(day.day.maxtemp_c);
+    const upcomingDayLowTemp = Math.round(day.day.mintemp_c);
+    const upcomingDayWind = day.day.maxwind_kph;
+    console.log(upcomingDayHighTemp);
 
-      html += `
+    html += `
   
           <div class ="weather-forecast-days__tomorrow">
             <div class ="weather-forecast-days__day">
@@ -124,41 +111,67 @@ function renderDetailView(weatherData) {
             </div>
           </div>
         `;
-    });
+  });
 
-    const container = rootElement.querySelector(
-      ".weather-forecast-days__overview"
-    );
-    if (container) {
-      container.innerHTML += html;
+  const container = rootElement.querySelector(
+    ".weather-forecast-days__overview"
+  );
+  if (container) {
+    container.innerHTML += html;
+  }
+}
+
+function setFavoriteStar(weatherData) {
+  const favBtn = document.querySelector(".weather__fav");
+  const starEl = favBtn.querySelector(".weather__star");
+
+  if (favBtn && starEl) {
+    const cityName = starEl.dataset.cityName;
+    let favorites = getFavoriteCities();
+
+    if (favorites.includes(cityName)) {
+      starEl.classList.add("weather__star--active");
     }
+
+    favBtn.addEventListener("click", () => {
+      favorites = getFavoriteCities();
+
+      if (favorites.includes(cityName)) {
+        favorites = favorites.filter((city) => city !== cityName);
+        starEl.classList.remove("weather__star--active");
+      } else {
+        favorites.push(cityName);
+        starEl.classList.add("weather__star--active");
+      }
+      saveFavoriteCities(favorites);
+    });
   }
+}
 
-  function convertGermanTime(timeStr) {
-    const [time, modifier] = timeStr.split(" ");
-    let [hours, minutes] = time.split(":").map(Number);
+function convertGermanTime(timeStr) {
+  const [time, modifier] = timeStr.split(" ");
+  let [hours, minutes] = time.split(":").map(Number);
 
-    if (modifier === "PM" && hours < 12) hours += 12;
-    if (modifier === "AM" && hours === 12) hours = 0;
+  if (modifier === "PM" && hours < 12) hours += 12;
+  if (modifier === "AM" && hours === 12) hours = 0;
 
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )} Uhr`;
-  }
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )} Uhr`;
+}
 
-  function getWeatherDetails(weatherData) {
-    let html = "";
-    const humidity = weatherData.current.humidity;
-    const perceived = Math.round(weatherData.current.feelslike_c);
-    const rainfall =
-      weatherData.forecast.forecastday[0].day.daily_chance_of_rain;
-    const index = Math.round(weatherData.current.heatindex_c);
-    const astro = weatherData.forecast.forecastday[0].astro;
-    const sunset = convertGermanTime(astro.sunset);
-    const sunrise = convertGermanTime(astro.sunrise);
+function getWeatherDetails(weatherData) {
+  let html = "";
+  const humidity = weatherData.current.humidity;
+  const perceived = Math.round(weatherData.current.feelslike_c);
+  const rainfall = weatherData.forecast.forecastday[0].day.daily_chance_of_rain;
+  const index = Math.round(weatherData.current.uv);
+  const astro = weatherData.forecast.forecastday[0].astro;
+  const sunset = convertGermanTime(astro.sunset);
+  const sunrise = convertGermanTime(astro.sunrise);
 
-    html += ` 
+  html += ` 
               <div class="weather-details__box">
                 <p class="weather-details__humidity">Luftfeuchtigkeit</p>
                 <p>${humidity}%</p>
@@ -185,24 +198,24 @@ function renderDetailView(weatherData) {
               </div>
            `;
 
-    const container = rootElement.querySelector(".weather-details");
+  const container = rootElement.querySelector(".weather-details");
 
-    if (container) {
-      container.innerHTML += html;
-    }
+  if (container) {
+    container.innerHTML += html;
   }
+}
 
-  function getHeaderHtml(
-    location,
-    temp,
-    condition,
-    maxTemp,
-    minTemp,
-    forecastCondition,
-    maxWind,
-    currentIcon
-  ) {
-    return `<div class="weather">
+function getHeaderHtml(
+  location,
+  temp,
+  condition,
+  maxTemp,
+  minTemp,
+  forecastCondition,
+  maxWind,
+  currentIcon
+) {
+  return `<div class="weather">
               <div class="weather__nav">
                   <i class="weather__back"></i>
                   <button class="weather__fav">
@@ -276,35 +289,29 @@ function renderDetailView(weatherData) {
       </div>
     
       `;
-  }
+}
 
-  //====================scrollbar====================
+//====================scrollbar====================
 
-  function dragScrolling(scrollEl) {
-    let isDown = false;
-    let startX;
-    let scrollX;
-    scrollEl.addEventListener("mousedown", (x) => {
-      isDown = true;
-      startX = x.pageX;
-      scrollX = scrollEl.scrollLeft;
-      document.body.style.userSelect = "none";
-    });
+function dragScrolling(scrollEl) {
+  let isDown = false;
+  let startX;
+  let scrollX;
+  scrollEl.addEventListener("mousedown", (x) => {
+    isDown = true;
+    startX = x.pageX;
+    scrollX = scrollEl.scrollLeft;
+    document.body.style.userSelect = "none";
+  });
 
-    window.addEventListener("mouseup", () => {
-      isDown = false;
-      document.body.style.userSelect = "none";
-    });
-
-    scrollEl.addEventListener("mouseleave", () => {
-      isDown = false;
-      document.body.style.userSelect = "none";
-    });
-    scrollEl.addEventListener("mousemove", (x) => {
-      if (!isDown) return;
-      x.preventDefault();
-      const distance = x.pageX - startX;
-      scrollEl.scrollLeft = scrollX - distance;
-    });
-  }
+  scrollEl.addEventListener("mouseleave", () => {
+    isDown = false;
+    document.body.style.userSelect = "none";
+  });
+  scrollEl.addEventListener("mousemove", (x) => {
+    if (!isDown) return;
+    x.preventDefault();
+    const distance = x.pageX - startX;
+    scrollEl.scrollLeft = scrollX - distance;
+  });
 }
