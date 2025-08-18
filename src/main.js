@@ -5,5 +5,3 @@ import { loadCities } from "./mainMenu";
 
 export const rootElement = document.getElementById("app");
 loadCities();
-
-//loadDetailView();

@@ -69,6 +69,14 @@ function eventListeners() {
           suggestionBox.innerHTML = "";
         });
       });
+    document.addEventListener("click", (e) => {
+      if (
+        !searchInput.contains(e.target) &&
+        !suggestionBox.contains(e.target)
+      ) {
+        suggestionBox.innerHTML = "";
+      }
+    });
   });
 
   document.querySelectorAll(".main-menu__delete-button").forEach((btn) => {
@@ -92,10 +100,10 @@ function getMenuHeaderHtml() {
            <button class="main-menu__edit">bearbeiten</button>
           </div>
           <div class="main-menu__search">
-      <input class="main-menu__searchbar" type="text" placeholder="City..." />
-      <div class="main-menu__suggestions"></div>
-    </div>
- `;
+           <input class="main-menu__searchbar" type="text" placeholder="City..." />
+          <div class="main-menu__suggestions"></div>
+         </div>
+         `;
 }
 
 export function getFavoriteCities() {
@@ -122,11 +130,13 @@ async function getCities() {
       weatherData.current.is_day !== 1
     );
 
-    const cityHtml = `<div class="main-menu__cities-wrapper"><button class="main-menu__delete-button "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-</svg>
-
-</button><div class="main-menu__citys" data-city-name="${city}" ${
+    const cityHtml = `<div class="main-menu__cities-wrapper">
+                        <button class="main-menu__delete-button "> 
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                          </svg>
+                      </button>
+                      <div class="main-menu__citys" data-city-name="${city}" ${
       conditionImage ? `style="--condition-image: url(${conditionImage})"` : ""
     }>
                         <div class="main-menu__cityleft">
