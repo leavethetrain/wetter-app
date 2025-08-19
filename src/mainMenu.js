@@ -21,6 +21,12 @@ async function renderMainMenu() {
     </div>
   `;
 
+  const favorites = getFavoriteCities();
+  if (favorites.length > 0) {
+    const favoriteText = document.querySelector(".main-menu__text");
+    favoriteText.style.display = "none";
+  }
+
   const editBtn = document.querySelector(".main-menu__edit");
   editBtn.addEventListener("click", () => {
     document.querySelectorAll(".main-menu__delete-button").forEach((btn) => {
@@ -96,13 +102,16 @@ function eventListeners() {
 
 function getMenuHeaderHtml() {
   return `<div class="main-menu__header">
-           <h1>Wetter</h1>
+           <h1 class="main-menu__heading">Wetter</h1>
            <button class="main-menu__edit">bearbeiten</button>
           </div>
           <div class="main-menu__search">
-           <input class="main-menu__searchbar" type="text" placeholder="City..." />
+           <input class="main-menu__searchbar" type="text" placeholder="Nach Stadt suchen..." />
           <div class="main-menu__suggestions"></div>
+          
          </div>
+         <span class="main-menu__text">Noch keine Favoriten gespeichert</span>
+         
          `;
 }
 
