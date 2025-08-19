@@ -5,6 +5,8 @@ import { getForecastWeather } from "./api";
 import { getConditionImagePath } from "./condition";
 import { searchCities } from "./api";
 
+let isDeleteMode = false;
+
 export async function loadCities() {
   rootElement.classList.remove("show-background");
   renderLoadingScreen("Lade Übersicht...");
@@ -12,6 +14,7 @@ export async function loadCities() {
 }
 
 async function renderMainMenu() {
+  isDeleteMode = false;
   rootElement.classList.remove("show-background");
   const citiesHtml = await getCities();
   rootElement.innerHTML = `
@@ -26,15 +29,54 @@ async function renderMainMenu() {
     const favoriteText = document.querySelector(".main-menu__text");
     favoriteText.style.display = "none";
   }
+  checkbox();
+  eventListeners();
+}
 
+function checkbox() {
   const editBtn = document.querySelector(".main-menu__edit");
-  editBtn.addEventListener("click", () => {
-    document.querySelectorAll(".main-menu__delete-button").forEach((btn) => {
-      btn.classList.toggle("main-menu__delete-button--visible");
-    });
+  const checkboxWrappers = document.querySelectorAll(".main-menu__checkboxes");
+  editBtn.textContent = isDeleteMode ? "löschen" : "bearbeiten";
+
+  editBtn.addEventListener("click", async () => {
+    if (!isDeleteMode) {
+      isDeleteMode = true;
+      checkboxWrappers.forEach((w) => (w.style.display = "inline-block"));
+      editBtn.textContent = "abbrechen";
+    } else {
+      const checkedBoxes = document.querySelectorAll(
+        ".main-menu__city-checkbox:checked"
+      );
+      const toDelete = Array.from(checkedBoxes).map((cb) => cb.dataset.city);
+
+      if (toDelete.length > 0) {
+        const favoriteCities = getFavoriteCities();
+        const newFavorites = favoriteCities.filter(
+          (city) => !toDelete.includes(city)
+        );
+        saveFavoriteCities(newFavorites);
+        toDelete.forEach((city) => {
+          const cityDiv = document.querySelector(
+            `.main-menu__citys[data-city-name="${city}"]`
+          );
+          if (cityDiv) cityDiv.parentElement.remove();
+        });
+      }
+
+      isDeleteMode = false;
+      checkboxWrappers.forEach((w) => (w.style.display = "none"));
+      await renderMainMenu();
+    }
   });
 
-  eventListeners();
+  document.querySelectorAll(".main-menu__city-checkbox").forEach((cb) => {
+    cb.addEventListener("change", () => {
+      const anyChecked =
+        document.querySelectorAll(".main-menu__city-checkbox:checked").length >
+        0;
+      editBtn.textContent = anyChecked ? "löschen" : "abbrechen";
+    });
+  });
 }
 
 function eventListeners() {
@@ -140,15 +182,16 @@ async function getCities() {
     );
 
     const cityHtml = `<div class="main-menu__cities-wrapper">
-                          <button class="main-menu__delete-button "> 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                          </button>
-                        <div class="main-menu__citys" data-city-name="${city}" ${
+                        <label class="main-menu__checkboxes" style="${
+                          isDeleteMode ? "display:inline-block" : "display:none"
+                        }">
+      <input type="checkbox" class="main-menu__city-checkbox" data-city="${city}">
+      <span class="main-menu__check"></span>
+    </label>
+                      <div class="main-menu__citys" data-city-name="${city}" ${
       conditionImage ? `style="--condition-image: url(${conditionImage})"` : ""
     }>
-                          <div class="main-menu__cityleft">
+                        <div class="main-menu__cityleft">
                             <h2 class="main-menu__cityleft--location">${
                               location.name
                             }</h2>
