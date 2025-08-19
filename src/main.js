@@ -1,4 +1,3 @@
-import { loadDetailView } from "./detailView";
 import "../styles/main.scss";
 import "../styles/mainMenu.scss";
 import { loadCities } from "./mainMenu";

@@ -102,15 +102,15 @@ function eventListeners() {
 
 function getMenuHeaderHtml() {
   return `<div class="main-menu__header">
-           <h1 class="main-menu__heading">Wetter</h1>
-           <button class="main-menu__edit">bearbeiten</button>
+              <h1 class="main-menu__heading">Wetter</h1>
+              <button class="main-menu__edit">bearbeiten</button>
           </div>
           <div class="main-menu__search">
-           <input class="main-menu__searchbar" type="text" placeholder="Nach Stadt suchen..." />
-          <div class="main-menu__suggestions"></div>
-          
-         </div>
-         <span class="main-menu__text">Noch keine Favoriten gespeichert</span>
+              <input class="main-menu__searchbar" type="text" placeholder="Nach Stadt suchen..." />
+            <div class="main-menu__suggestions">
+            </div>
+          </div>
+          <span class="main-menu__text">Noch keine Favoriten gespeichert</span>
          
          `;
 }
@@ -140,15 +140,15 @@ async function getCities() {
     );
 
     const cityHtml = `<div class="main-menu__cities-wrapper">
-                        <button class="main-menu__delete-button "> 
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                          </svg>
-                      </button>
-                      <div class="main-menu__citys" data-city-name="${city}" ${
+                          <button class="main-menu__delete-button "> 
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                          </button>
+                        <div class="main-menu__citys" data-city-name="${city}" ${
       conditionImage ? `style="--condition-image: url(${conditionImage})"` : ""
     }>
-                        <div class="main-menu__cityleft">
+                          <div class="main-menu__cityleft">
                             <h2 class="main-menu__cityleft--location">${
                               location.name
                             }</h2>
