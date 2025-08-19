@@ -8,7 +8,7 @@
 
   &__temp {
     font-weight: 250;
-    font-size: 2.5rem;
+    font-size: 3.5rem;
   }
 
   &__day-temp {
@@ -173,6 +173,16 @@
     backdrop-filter: blur(5px);
     padding: 1.5rem;
     font-size: 0.8rem;
+    gap: 0.5rem;
+  }
+
+  &__rainfall ~ p,
+  &__humidity ~ p,
+  &__perceived ~ p,
+  &__sunrise ~ p,
+  &__sunset ~ p,
+  &__index ~ p {
+    font-size: 1.2rem;
   }
 }
 
