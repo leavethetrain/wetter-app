@@ -15,7 +15,7 @@
 
   &__heading {
     text-shadow: $text-shadow;
-    font-size: 2.6rem;
+    font-size: 2.7rem;
   }
 
   &__edit {
@@ -23,6 +23,14 @@
     background-color: transparent;
     color: $text-color;
     cursor: pointer;
+    font-size: 0.9rem;
+
+    
+  }
+
+  &__edit:hover {
+    text-shadow: $text-shadow;
+    
   }
 
   &__search {
@@ -87,7 +95,7 @@
   }
 
   &__checkboxes:hover &__check {
-    border-color: #787c80;
+    border-color: $elevation-2;
   }
 
   &__city-checkbox {
@@ -108,7 +116,7 @@
   }
 
   &__city-checkbox + &__check {
-    background-color: $elevation-2;
+    background-color: lighten($elevation-2, 20%);
     border-color: $background;
     color: $text-color;
     font-size: 16px;
@@ -161,6 +169,8 @@
     background-position: 50% 25%;
     cursor: pointer;
   }
+
+
 
   &__cityleft {
     display: flex;

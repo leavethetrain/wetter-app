@@ -36,13 +36,13 @@ async function renderMainMenu() {
 function checkbox() {
   const editBtn = document.querySelector(".main-menu__edit");
   const checkboxWrappers = document.querySelectorAll(".main-menu__checkboxes");
-  editBtn.textContent = isDeleteMode ? "löschen" : "bearbeiten";
+  editBtn.textContent = isDeleteMode ? "Löschen" : "Bearbeiten";
 
   editBtn.addEventListener("click", async () => {
     if (!isDeleteMode) {
       isDeleteMode = true;
       checkboxWrappers.forEach((w) => (w.style.display = "inline-block"));
-      editBtn.textContent = "abbrechen";
+      editBtn.textContent = "Abbrechen";
     } else {
       const checkedBoxes = document.querySelectorAll(
         ".main-menu__city-checkbox:checked"
@@ -74,7 +74,7 @@ function checkbox() {
       const anyChecked =
         document.querySelectorAll(".main-menu__city-checkbox:checked").length >
         0;
-      editBtn.textContent = anyChecked ? "löschen" : "abbrechen";
+      editBtn.textContent = anyChecked ? "Löschen" : "Abbrechen";
     });
   });
 }
