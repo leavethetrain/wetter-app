@@ -135,10 +135,13 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     width: 100%;
 
     @include header();
+    @include largeScreens {
+      font-size: 0.8rem;
+    }
   }
 
   .weekday {
