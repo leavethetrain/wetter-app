@@ -148,7 +148,7 @@ function getMenuHeaderHtml() {
               <button class="main-menu__edit">bearbeiten</button>
           </div>
           <div class="main-menu__search">
-              <input class="main-menu__searchbar" type="text" placeholder="Nach Stadt suchen..." />
+              <input class="main-menu__searchbar" type="search" placeholder="Nach Stadt suchen..." />
             <div class="main-menu__suggestions">
             </div>
           </div>
@@ -185,9 +185,9 @@ async function getCities() {
                         <label class="main-menu__checkboxes" style="${
                           isDeleteMode ? "display:inline-block" : "display:none"
                         }">
-      <input type="checkbox" class="main-menu__city-checkbox" data-city="${city}">
-      <span class="main-menu__check"></span>
-    </label>
+                          <input type="checkbox" class="main-menu__city-checkbox" data-city="${city}">
+                          <span class="main-menu__check"></span>
+                        </label>
                       <div class="main-menu__citys" data-city-name="${city}" ${
       conditionImage ? `style="--condition-image: url(${conditionImage})"` : ""
     }>
@@ -212,7 +212,7 @@ async function getCities() {
                          </div>
                       </div></div>`;
 
-    favoriteCityEl.push(cityHtml);
+    favoriteCityEl.unshift(cityHtml);
   }
 
   return favoriteCityEl.join("");

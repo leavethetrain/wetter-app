@@ -25,13 +25,10 @@
     color: $text-color;
     cursor: pointer;
     font-size: 0.9rem;
-
-    
   }
 
   &__edit:hover {
     text-shadow: $text-shadow;
-    
   }
 
   &__search {
@@ -77,7 +74,6 @@
     font-size: 1rem;
     background-color: $elevation;
     border-bottom: $lines;
-    
   }
 
   &__suggestion:hover {
@@ -174,8 +170,6 @@
     cursor: pointer;
   }
 
-
-
   &__cityleft {
     display: flex;
     flex-direction: column;
@@ -205,4 +199,8 @@
       align-self: self-end;
     }
   }
+}
+
+svg {
+  color: white;
 }
